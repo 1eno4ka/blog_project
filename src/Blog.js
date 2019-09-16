@@ -4,6 +4,15 @@ import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 
 
 class Blog extends React.Component {
+
+  deleteThisPost (){
+    let iNeedPosts = Storage.get ("blog");
+    let postId = this.props.match.params.id;
+    let thepostIneed = iNeedPosts.find (post => post.id == postId)
+    iNeedPosts.splice (thepostIneed, 1)
+    console.dir(iNeedPosts)
+  }
+
   render() {
     // console.dir("ININININI");
     let postId = this.props.match.params.id; //достает id из адреса
@@ -19,6 +28,7 @@ class Blog extends React.Component {
           <Link to = {"/edit-post/" + postId}>
             <button> Изменить </button>
           </Link>
+          <button onClick = {this.deleteThisPost.bind(this)}> Удалить </button>
       </div>
     )
   }
