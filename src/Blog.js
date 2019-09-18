@@ -1,16 +1,12 @@
 import React from 'react';
 import Storage from './Storage'
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
-
+import PostService from './PostService'
 
 class Blog extends React.Component {
 
-  deleteThisPost (){
-    let iNeedPosts = Storage.get ("blog");
-    let postId = this.props.match.params.id;
-    let thepostIneed = iNeedPosts.find (post => post.id == postId)
-    iNeedPosts.splice (thepostIneed, 1)
-    console.dir(iNeedPosts)
+  deleteThisPost (postId){
+    PostService.delete (postId)
   }
 
   render() {
@@ -28,7 +24,7 @@ class Blog extends React.Component {
           <Link to = {"/edit-post/" + postId}>
             <button> Изменить </button>
           </Link>
-          <button onClick = {this.deleteThisPost.bind(this)}> Удалить </button>
+          <button onClick = {this.deleteThisPost.bind(this, postId)}> Удалить </button>
       </div>
     )
   }

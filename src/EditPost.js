@@ -1,26 +1,27 @@
 import React from 'react';
 import Storage from './Storage'
+import PostService from './PostService'
+import {Redirect} from "react-router-dom"
 
 class EditPost extends React.Component{
 
   editThisPost (){
-    let iNeedPosts = Storage.get ("blog");
     let postId = this.props.match.params.id;
-    let thepostIneed = iNeedPosts.find (post => post.id == postId)
-    iNeedPosts.splice (thepostIneed, 1)
-    let post = {
+    let newPost = {
       id: this.id.value,
       title: this.title.value,
       text: this.text.value,
       date: this.date.value
     }
-    iNeedPosts.push(post);
-    Storage.set ("blog", iNeedPosts);
-    console.dir(iNeedPosts)
-
+    PostService.update (postId, newPost);
+    this.setState({redirect: true})
   }
 
   render(){
+    if (this.state && this.state.redirect) {
+      return (<Redirect to="/" />);
+    }
+
     let iNeedPosts = Storage.get ("blog"); // достали массив под названим Блог
     let postId = this.props.match.params.id; // КАК-ТО ДОСТАЕМ ID - УТОЧНИТЬ!!!!!!
     let thepostIneed = iNeedPosts.find (post => post.id == postId) //находим нужный пост
